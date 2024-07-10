@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1ne8q62xntwh"]
+
+[ext_resource type="Texture2D" uid="uid://dr4a8aq57mjf7" path="res://assets/PNG/Default/enemy_D.png" id="1_xwqqy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ememm"]
+size = Vector2(47, 47)
+
+[node name="Player" type="Player" groups=["player"]]
+speed = 30000.0
+initial_front = -90.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(0, -24, 28, 24, -28, 24)
+disabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ememm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xwqqy")

@@ -1,0 +1,10 @@
+[package]
+name = "simple-space"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+godot = { git = "https://github.com/godot-rust/gdext", rev = "4dc2720ff64a6fe7115b82f3a229b05267d93bcd" }
