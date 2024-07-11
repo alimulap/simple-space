@@ -8,6 +8,8 @@ size = Vector2(47, 47)
 [node name="Player" type="Player" groups=["player"]]
 speed = 30000.0
 initial_front = -90.0
+bullet_speed = 3000.0
+metadata/_edit_vertical_guides_ = [-523.0]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 visible = false

@@ -1,17 +1,25 @@
-use std::f64::consts::PI;
 use godot::engine::{CharacterBody2D, ICharacterBody2D};
-use godot::global::Key;
+use godot::global::{Key, MouseButton};
+use godot::obj::WithBaseField;
 use godot::prelude::*;
+use std::f64::consts::PI;
+
+use crate::bullet::Bullet;
 
 #[derive(GodotClass)]
 #[class(base=CharacterBody2D)]
 pub struct Player {
+    base: Base<CharacterBody2D>,
+
     #[export]
     speed: f64,
-    counter: i32,
     #[export]
     initial_front: f64,
-    base: Base<CharacterBody2D>,
+    #[export]
+    bullet_speed: f32,
+
+    bullet: Gd<PackedScene>,
+    counter: i32,
 }
 
 #[godot_api]
@@ -19,19 +27,23 @@ impl ICharacterBody2D for Player {
     fn init(base: Base<CharacterBody2D>) -> Self {
         Self {
             base,
-            counter: 0,
-            initial_front: 0.,
             speed: 1.,
+            initial_front: 0.,
+            bullet: PackedScene::new_gd(),
+            bullet_speed: 0.,
+            counter: 0,
         }
     }
 
     fn ready(&mut self) {
+        self.bullet = load("scenes/bullet.tscn");
         // self.base_mut().set_gravity_scale(0.);
     }
 
     fn process(&mut self, delta: f64) {
         self.movement_handler(delta);
         self.rotation_handler();
+        self.attack_handler();
     }
 }
 
@@ -104,5 +116,24 @@ impl Player {
         // let self_rotation_before = self.base().get_global_rotation();
         self.base_mut().set_rotation(angle_to_mouse);
         // let self_rotation = self.base().get_rotation();
+    }
+
+    const DISTANCE_BULLET: Vector2 = Vector2::new(0f32, -24f32);
+
+    fn attack_handler(&mut self) {
+        let input = Input::singleton();
+        if input.is_mouse_button_pressed(MouseButton::LEFT) {
+            println!("shoot");
+            let mut bullet = self.bullet.instantiate_as::<Bullet>();
+            bullet.set_position(
+                self.base().get_position()
+                    + Self::DISTANCE_BULLET.rotated(self.base().get_rotation()),
+            );
+            bullet.set_linear_velocity(Vector2::new(
+                (self.base().get_rotation() + self.initial_front.to_radians() as f32).cos() * self.bullet_speed,
+                (self.base().get_rotation() + self.initial_front.to_radians() as f32).sin() * self.bullet_speed
+            ));
+            self.base_mut().get_parent().unwrap().add_child(bullet.clone().upcast());
+        }
     }
 }

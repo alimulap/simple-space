@@ -1,5 +1,6 @@
 use godot::prelude::*;
 
+mod bullet;
 mod camera2d;
 mod player;
 

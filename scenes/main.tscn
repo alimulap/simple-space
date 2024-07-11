@@ -1,15 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://b27l10ymjh348"]
+[gd_scene load_steps=5 format=3 uid="uid://b27l10ymjh348"]
 
 [ext_resource type="PackedScene" uid="uid://c1ne8q62xntwh" path="res://scenes/player.tscn" id="1_qev73"]
 [ext_resource type="PackedScene" uid="uid://cev6xo6nwtnyw" path="res://scenes/camera_2d.tscn" id="2_b7d2k"]
 [ext_resource type="Texture2D" uid="uid://beviqvjepvyi3" path="res://assets/PNG/Retina/satellite_A.png" id="3_a3tjm"]
+[ext_resource type="PackedScene" uid="uid://b1jgvttfq0th6" path="res://scenes/bullet.tscn" id="4_hjnjp"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_qev73")]
+bullet_speed = 0.0
 
 [node name="Camera2D" parent="." instance=ExtResource("2_b7d2k")]
 
 [node name="SatelliteA" type="Sprite2D" parent="."]
 position = Vector2(-125, -75)
 texture = ExtResource("3_a3tjm")
+
+[node name="Bullet" parent="." instance=ExtResource("4_hjnjp")]
+position = Vector2(0, -24)
